@@ -1,18 +1,15 @@
-FROM alpine:latest
+ARG VERSION=latest
 
-RUN apk update \
- && apk add nginx openssl
+FROM alpine:$VERSION
+RUN apk add --update nginx && rm -rf /var/cache/apk/*
+RUN apk add openssl
+RUN mkdir -p /tmp/nginx/client-body
 
 RUN mkdir /etc/nginx/ssl
 RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes -out /etc/nginx/ssl/website.pem -keyout /etc/nginx/ssl/website.key -subj "/C=FR/ST=Paris/L=Paris/O=42 School/OU=erlajoua/CN=website"
 
-RUN mkdir -p /run/nginx
-RUN chown -R root:root /etc/nginx/ssl
-RUN chmod -R 600 /etc/nginx/ssl
-
-COPY ./srcs/default.conf /etc/nginx/conf.d/default.conf
-COPY ./index.html /var/www/localhost/htdocs
-
-EXPOSE 80 443
+COPY srcs/nginx.conf /etc/nginx/nginx.conf
+COPY srcs/default.conf /etc/nginx/conf.d/default.conf
+COPY srcs/index.html /usr/share/nginx/html/
 
 CMD ["nginx", "-g", "daemon off;"]
