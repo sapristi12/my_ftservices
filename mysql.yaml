@@ -4,7 +4,11 @@ metadata:
   labels:
     app: mysql
   name: mysql
+  annotations:
+    metallb.universe.tf/allow-shared-ip: shared
 spec:
+  type: LoadBalancer
+  loadBalancerIP: 172.17.0.2
   ports:
   - port: 3306
     protocol: TCP
@@ -40,11 +44,6 @@ spec:
   selector:
     matchLabels:
       app: mysql
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
   template:
     metadata:
       labels:

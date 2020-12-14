@@ -1,12 +1,15 @@
-FROM alpine:3
+FROM alpine:latest
 
-RUN	apk update && apk add --no-cache mariadb mariadb-client
+RUN apk update && \
+	apk add mysql mysql-client && \
+	addgroup mysql mysql && \
+	rm -rf /var/cache/apk/*
 
-COPY srcs/mariadb-server.cnf /etc/my.cnf.d/
-COPY srcs/cr_user.sql .
-COPY srcs/wordpress.sql .
-COPY srcs/create_tables.sql .
-COPY srcs/setup.sh .
-COPY srcs/cr_tables.sh .
+COPY scripts/start.sh /bin/start.sh
+COPY files/my.cnf /etc/mysql/my.cnf
 
-CMD ["sh","setup.sh"]
+VOLUME ["/var/lib/mysql"]
+
+EXPOSE 3306
+
+ENTRYPOINT ["/bin/start.sh"]

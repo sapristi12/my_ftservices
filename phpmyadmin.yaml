@@ -5,7 +5,7 @@ metadata:
     app: phpmyadmin
   name: phpmyadmin
   annotations:
-          metallb.universe.tf/allow-shared-ip: shared
+    metallb.universe.tf/allow-shared-ip: shared
 spec:
   type: LoadBalancer
   loadBalancerIP: 172.17.0.2
@@ -37,6 +37,17 @@ spec:
         app: phpmyadmin
     spec:
       containers:
-      - image: service_phpmyadmin
+      - name: phpmyadmin
+        image: service_phpmyadmin
         imagePullPolicy: Never
-        name: phpmyadmin
+        ports:
+        - containerPort: 5000
+        env:
+        - name: PMA_HOST
+          value: service_mysql
+        - name: PMA_PORT
+          value: '3306'
+        - name: PMA_USER
+          value: root
+        - name: MYSQL_ROOT_PASSWORD
+          value: ''
