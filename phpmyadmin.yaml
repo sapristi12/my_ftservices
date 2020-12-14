@@ -1,33 +1,8 @@
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: phpmyadmin
-  name: phpmyadmin
-  annotations:
-    metallb.universe.tf/allow-shared-ip: shared
-spec:
-  type: LoadBalancer
-  loadBalancerIP: 172.17.0.2
-  ports:
-  - name: phpmyadmin
-    port: 5000
-    protocol: TCP
-    targetPort: 5000
-  selector:
-    app: phpmyadmin
-  type: LoadBalancer
-
----
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: phpmyadmin
-  labels:
-    app: phpmyadmin
+  name: phpmyadmin-deployment
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: phpmyadmin
@@ -41,13 +16,33 @@ spec:
         image: service_phpmyadmin
         imagePullPolicy: Never
         ports:
-        - containerPort: 5000
-        env:
-        - name: PMA_HOST
-          value: service_mysql
-        - name: PMA_PORT
-          value: '3306'
-        - name: PMA_USER
-          value: root
-        - name: MYSQL_ROOT_PASSWORD
-          value: ''
+        - containerPort: 80
+          name: php-port
+       # livenessProbe:
+       #   exec:
+       #     command:
+       #     - /bin/ash
+       #     - -c
+       #     - 'pgrep telegraf && pgrep php'
+       #   initialDelaySeconds: 10
+       #   periodSeconds: 5
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: phpmyadmin-service
+  annotations:
+    metallb.universe.tf/allow-shared-ip: shared
+spec:
+  selector:
+    app: phpmyadmin
+  ports:
+    - name: php-port
+      protocol: TCP
+      port: 5000
+      targetPort: 80
+  type: LoadBalancer
+  loadBalancerIP: 172.17.0.2
+

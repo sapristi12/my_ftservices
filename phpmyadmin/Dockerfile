@@ -1,12 +1,29 @@
-FROM alpine:3
+ARG VERSION=latest
 
-ADD srcs/phpMyAdmin-4.9.5-english.tar.gz .
+FROM alpine:$VERSION
 
-RUN	apk update && apk add --no-cache php7 php7-fpm php7-opcache php7-gd php7-mysqli php7-zlib php7-curl php7-mbstring php7-json php7-session \
-	&& mkdir www/ \
-	&& chmod 775 www/ \
-	&& mv /phpMyAdmin-4.9.5-english/* www/
+COPY srcs/config.inc.php ./
+COPY srcs/setup.sh ./
+#telegraf.conf 
 
-COPY srcs/config.inc.php www/
+# Install PHP
+RUN apk update
+RUN apk add --no-cache php7 php7-fpm php7-opcache php7-gd php7-mysqli php7-zlib php7-curl php7-mbstring php7-json php7-session
 
-CMD ["php","-S", "0.0.0.0:5000", "-t", "/www"]
+# Download PHPMyAdmin
+ADD https://files.phpmyadmin.net/phpMyAdmin/5.0.2/phpMyAdmin-5.0.2-english.tar.gz .
+
+# Install PHPMyAdmin
+RUN tar -xvf phpMyAdmin-5.0.2-english.tar.gz && \
+	mv phpMyAdmin-5.0.2-english /www && \
+	mv config.inc.php /www/ && \
+	rm -f phpMyAdmin-5.0.2-english.tar.gz
+
+# Install telegraf
+#RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ telegraf && \
+#	mkdir -p /etc/telegraf && \
+#	mv telegraf.conf /etc/telegraf/
+
+EXPOSE 5000
+
+CMD ./setup.sh

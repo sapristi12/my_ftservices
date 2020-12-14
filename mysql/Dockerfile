@@ -1,15 +1,27 @@
-FROM alpine:latest
+ARG VERSION=latest
 
+FROM alpine:$VERSION
+
+COPY srcs/wpdb ./
+COPY srcs/wordpress.sql ./
+COPY srcs/my.cnf ./
+COPY srcs/setup.sh ./
+# telegraf.conf
+
+# Install MySQL and dependencies
 RUN apk update && \
-	apk add mysql mysql-client && \
-	addgroup mysql mysql && \
-	rm -rf /var/cache/apk/*
+	apk add --no-cache mysql mysql-client
 
-COPY scripts/start.sh /bin/start.sh
-COPY files/my.cnf /etc/mysql/my.cnf
+# Setup MySQL
+RUN mkdir -p /run/mysqld
+RUN mv my.cnf /etc/
 
-VOLUME ["/var/lib/mysql"]
+# Install telegraf
+#RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ telegraf && \
+#	mkdir -p /etc/telegraf
+# && \
+#	mv telegraf.conf /etc/telegraf/
 
 EXPOSE 3306
 
-ENTRYPOINT ["/bin/start.sh"]
+CMD ./setup.sh
