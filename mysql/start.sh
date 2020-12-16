@@ -7,8 +7,8 @@ service mariadb restart &> /dev/null
 mysql --user=root << EOF
   FLUSH PRIVILEGES;
   CREATE DATABASE wordpress;
-  CREATE USER 'admin'@'%' IDENTIFIED BY 'admin';
-  GRANT ALL ON *.* TO 'admin'@'%' IDENTIFIED BY 'admin' WITH GRANT OPTION;
+  CREATE USER 'erlajoua'@'%' IDENTIFIED BY '1212';
+  GRANT ALL ON *.* TO 'erlajoua'@'%' IDENTIFIED BY '1212' WITH GRANT OPTION;
   FLUSH PRIVILEGES;
 EOF
 

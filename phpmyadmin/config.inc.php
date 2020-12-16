@@ -31,8 +31,8 @@ $cfg['Servers'][$i]['auth_type'] = 'cookie';
 /* Server parameters */
 $cfg['Servers'][$i]['host'] = 'mysql-svc';
 $cfg['Servers'][$i]['port'] = '3306';
-$cfg['Servers'][$i]['user'] = 'admin';
-$cfg['Servers'][$i]['password'] = 'admin';
+$cfg['Servers'][$i]['user'] = 'erlajoua';
+$cfg['Servers'][$i]['password'] = '1212';
 $cfg['Servers'][$i]['compress'] = false;
 $cfg['Servers'][$i]['AllowNoPassword'] = false;
 /*$cfg['PmaAbsoluteUri'] = './';*/
