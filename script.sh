@@ -13,17 +13,19 @@ printf "Minikube IP: ${IP}"
 
 #DOCKERS
 echo "Dockers :"
-docker build -t service_nginx ./nginx
+#docker build -t service_nginx ./nginx
 #docker build -t service_ftps --build-arg IP=${IP} ./ftps
 docker build -t service_mysql --build-arg IP=${IP} ./mysql
+#docker build -t service_wordpress --build-arg IP=${IP} ./wordpress
 docker build -t service_phpmyadmin --build-arg IP=${IP} ./phpmyadmin
 #docker build -t service_influxdb --build-arg IP=${IP} ./influxdb
 
 #YAML
 echo "Pods and services :"
-kubectl create -f ./nginx.yaml
-#kubectl create -f ./ftps.yaml
+#kubectl create -f ./nginx.yaml
 kubectl create -f ./mysql.yaml
+#kubectl create -f ./wordpress.yaml
+#kubectl create -f ./ftps.yaml
 kubectl create -f ./phpmyadmin.yaml
 #kubectl create -f ./influxdb.yaml
 

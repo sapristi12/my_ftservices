@@ -9,8 +9,8 @@ COPY srcs/setup.sh ./
 # telegraf.conf
 
 # Install MySQL and dependencies
-RUN apk update && \
-	apk add --no-cache mysql mysql-client
+RUN apk update
+RUN apk add --no-cache mysql mysql-client
 
 # Setup MySQL
 RUN mkdir -p /run/mysqld

@@ -1,16 +1,21 @@
-FROM alpine:3
+ARG VERSION=latest
 
-RUN	apk update && apk add --no-cache php7 php7-fpm php7-opcache \
-	php7-gd php7-mysqli php7-zlib php7-curl php7-mbstring \
-	php7-json php7-session
+FROM alpine:$VERSION
 
-RUN mkdir www \
-	&& chmod 775 www
+COPY wp-config.php setup.sh ./
 
-ADD srcs/wordpress-5.4.1-fr_FR.tar.gz www/
+RUN apk update && \
+	apk add --no-cache php7 php7-fpm php7-opcache php7-gd php7-mysqli \
+	php7-zlib php7-curl php7-mbstring php7-json php7-session
 
-COPY srcs/wp-config.php www/wordpress/
+COPY latest.tar.gz .
 
+RUN tar -xvf latest.tar.gz && \
+	mv wordpress /www && \
+	mv wp-config.php /www/ && \
+	rm -f latest.tar.gz
 EXPOSE 5050
 
-CMD ["php", "-S", "0.0.0.0:5050", "-t", "/www/wordpress/"]
+RUN chmod +x setup.sh
+
+CMD ./setup.sh

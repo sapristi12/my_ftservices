@@ -1,15 +1,32 @@
-ARG VERSION=latest
+FROM alpine:latest
 
-FROM alpine:$VERSION
-RUN apk add --update nginx && rm -rf /var/cache/apk/*
-RUN apk add openssl
-RUN mkdir -p /tmp/nginx/client-body
+COPY nginx.conf index.html setup.sh ./
+#COPY telegraf.conf ./
 
-RUN mkdir /etc/nginx/ssl
-RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes -out /etc/nginx/ssl/website.pem -keyout /etc/nginx/ssl/website.key -subj "/C=FR/ST=Paris/L=Paris/O=42 School/OU=erlajoua/CN=website"
+# Install nginx and dependencies
+RUN apk update && \
+	apk add --no-cache nginx openssh openssl
 
-COPY srcs/nginx.conf /etc/nginx/nginx.conf
-COPY srcs/default.conf /etc/nginx/conf.d/default.conf
-COPY srcs/index.html /usr/share/nginx/html/
+# Setup nginx
+RUN mkdir -p /run/nginx www && \
+	mv nginx.conf /etc/nginx/ && \
+	mv index.html /www/
 
-CMD ["nginx", "-g", "daemon off;"]
+# Setup SSL
+RUN openssl req -new -newkey rsa:2048 -nodes -days 365 -x509 \
+	-subj "/C=FR/ST=IDF/L=Paris/O=42/OU=Federation/CN=localhost" \
+	-keyout /etc/ssl/private/services.key -out /etc/ssl/certs/services.crt
+
+# Setup SSH
+#RUN ssh-keygen -A && \
+#	adduser -D ssh_admin && \
+#	echo "ssh_admin:0101" | chpasswd
+
+# Install telegraf
+#RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ telegraf && \
+#	mkdir -p /etc/telegraf && \
+#	mv telegraf.conf /etc/telegraf/
+
+EXPOSE 22 80 443
+
+CMD ./setup.sh
