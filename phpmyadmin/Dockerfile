@@ -4,7 +4,6 @@ FROM alpine:$VERSION
 
 COPY srcs/config.inc.php ./
 COPY srcs/setup.sh ./
-#COPY srcs/telegraf.conf ./
 
 RUN apk update
 RUN apk add --no-cache php7 php7-fpm php7-opcache php7-gd php7-mysqli php7-zlib php7-curl php7-mbstring php7-json php7-session
@@ -15,11 +14,6 @@ RUN tar -xvf phpMyAdmin-5.0.2-english.tar.gz
 RUN mv phpMyAdmin-5.0.2-english /www
 RUN mv config.inc.php /www/
 RUN rm -f phpMyAdmin-5.0.2-english.tar.gz
-
-# Install telegraf
-#RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ telegraf && \
-#	mkdir -p /etc/telegraf && \
-#	mv telegraf.conf /etc/telegraf/
 
 EXPOSE 5000
 
