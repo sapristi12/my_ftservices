@@ -2,38 +2,47 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: phpmyadmin
+  labels:
+    app: phpmyadmin
 spec:
   selector:
     matchLabels:
       app: phpmyadmin
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
         app: phpmyadmin
     spec:
+      restartPolicy: Always
       containers:
-      - name: phpmyadmin
-        image: service_phpmyadmin
-        imagePullPolicy: Never
+      - image: phpmyadmin
+        name: phpmyadmin
         ports:
-        - containerPort: 80
-          name: php-port
-
+        - containerPort: 5000
+          name: http
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 15
+          periodSeconds: 5
+        imagePullPolicy: Never
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
-  name: phpmyadmin
+  name: phpmyadmin-svc
+  labels:
+    app: phpmyadmin
   annotations:
     metallb.universe.tf/allow-shared-ip: shared
 spec:
   selector:
     app: phpmyadmin
   ports:
-    - name: php-port
-      protocol: TCP
-      port: 5000
-      targetPort: 80
+  - port: 5000
+    targetPort: 5000
+    name: http
   type: LoadBalancer
-

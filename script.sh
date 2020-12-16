@@ -15,9 +15,9 @@ printf "Minikube IP: ${IP}"
 echo "Dockers :"
 #docker build -t service_nginx ./nginx
 #docker build -t service_ftps --build-arg IP=${IP} ./ftps
-docker build -t service_mysql --build-arg IP=${IP} ./mysql
-#docker build -t service_wordpress --build-arg IP=${IP} ./wordpress
-docker build -t service_phpmyadmin --build-arg IP=${IP} ./phpmyadmin
+docker build -t mysql --build-arg IP=${IP} ./mysql
+docker build -t wordpress --build-arg IP=${IP} ./wordpress
+docker build -t phpmyadmin --build-arg IP=${IP} ./phpmyadmin
 #docker build -t service_influxdb --build-arg IP=${IP} ./influxdb
 
 #YAML

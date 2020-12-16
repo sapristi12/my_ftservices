@@ -23,22 +23,19 @@
 define( 'DB_NAME', 'wordpress' );
 
 /** MySQL database username */
-define( 'DB_USER', 'erlajoua' );
+define( 'DB_USER', 'admin' );
 
 /** MySQL database password */
-define( 'DB_PASSWORD', '1212' );
+define( 'DB_PASSWORD', 'admin' );
 
 /** MySQL hostname */
-define( 'DB_HOST', 'mysql-service' );
+define( 'DB_HOST', 'mysql-svc' );
 
 /** Database Charset to use in creating database tables. */
-define( 'DB_CHARSET', 'utf8' );
+define( 'DB_CHARSET', 'utf8mb4' );
 
 /** The Database Collate type. Don't change this if in doubt. */
 define( 'DB_COLLATE', '' );
-
-/** [ADDED] Allow Wordpress to change files when updating */
-define( 'FS_METHOD', 'direct' );
 
 /**#@+
  * Authentication Unique Keys and Salts.
@@ -49,14 +46,7 @@ define( 'FS_METHOD', 'direct' );
  *
  * @since 2.6.0
  */
-define( 'AUTH_KEY',         'put your unique phrase here' );
-define( 'SECURE_AUTH_KEY',  'put your unique phrase here' );
-define( 'LOGGED_IN_KEY',    'put your unique phrase here' );
-define( 'NONCE_KEY',        'put your unique phrase here' );
-define( 'AUTH_SALT',        'put your unique phrase here' );
-define( 'SECURE_AUTH_SALT', 'put your unique phrase here' );
-define( 'LOGGED_IN_SALT',   'put your unique phrase here' );
-define( 'NONCE_SALT',       'put your unique phrase here' );
+
 
 /**#@-*/
 
@@ -80,25 +70,7 @@ $table_prefix = 'wp_';
  *
  * @link https://wordpress.org/support/article/debugging-in-wordpress/
  */
-
-
-/*pour voir les erreurs */
-// Enable WP_DEBUG mode
-define('WP_DEBUG', true);
-
-// Enable Debug logging to the /wp-content/debug.log file
-define('WP_DEBUG_LOG', true);
-
-// Disable display of errors and warnings 
-define('WP_DEBUG_DISPLAY', false);
-@ini_set('display_errors',0);
-
-// Use dev versions of core JS and CSS files (only needed if you are modifying these core files)
-define('SCRIPT_DEBUG', true);
-
-/*pour voir les erreurs fin*/
-
-
+define( 'WP_DEBUG', false );
 
 /* That's all, stop editing! Happy publishing. */
 
