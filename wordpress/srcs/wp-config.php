@@ -29,7 +29,7 @@ define( 'DB_USER', 'erlajoua' );
 define( 'DB_PASSWORD', '1212' );
 
 /** MySQL hostname */
-define( 'DB_HOST', 'mysql-svc' );
+define( 'DB_HOST', 'service-mysql' );
 
 /** Database Charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8mb4' );

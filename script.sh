@@ -13,11 +13,14 @@ printf "Minikube IP: ${IP}"
 
 #DOCKERS
 echo "Dockers :"
-docker build -t service_nginx ./nginx
-#docker build -t service_ftps --build-arg IP=${IP} ./ftps
+docker build -t nginx ./nginx
+docker build -t ftps --build-arg IP=${IP} ./ftps
 docker build -t mysql --build-arg IP=${IP} ./mysql
 docker build -t wordpress --build-arg IP=${IP} ./wordpress
 docker build -t phpmyadmin --build-arg IP=${IP} ./phpmyadmin
+docker build -t influxdb --build-arg IP=${IP} ./influxdb
+docker build -t telegraf --build-arg IP=${IP} ./telegraf
+#docker build -t grafana --build-arg IP=${IP} ./grafana
 #docker build -t service_influxdb --build-arg IP=${IP} ./influxdb
 
 #YAML
@@ -25,8 +28,11 @@ echo "Pods and services :"
 kubectl create -f ./nginx.yaml
 kubectl create -f ./mysql.yaml
 kubectl create -f ./wordpress.yaml
-#kubectl create -f ./ftps.yaml
+kubectl create -f ./ftps.yaml
 kubectl create -f ./phpmyadmin.yaml
+kubectl create -f ./influxdb.yaml
+kubectl create -f ./telegraf.yaml
+#kubectl create -f ./grafana.yaml
 #kubectl create -f ./influxdb.yaml
 
 minikube dashboard

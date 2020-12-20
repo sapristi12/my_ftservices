@@ -1,16 +1,20 @@
-FROM	alpine
+ARG VERSION=latest
 
-RUN		apk update \
-		&& apk add --no-cache mariadb mariadb-client openrc
+FROM alpine:$VERSION
 
-COPY	. .
+RUN	apk update
+RUN apk add --no-cache mariadb mariadb-client openrc
 
-RUN		cat mariadb-server.cnf > /etc/my.cnf.d/mariadb-server.cnf
+COPY srcs/livenessprobe.sh ./
+COPY srcs/mariadb-server.cnf ./
+COPY srcs/start.sh ./
+COPY srcs/wordpress.sql ./
 
-RUN		mkdir -p /run/mysqld
+RUN rm /etc/my.cnf.d/mariadb-server.cnf
+RUN mv mariadb-server.cnf /etc/my.cnf.d/
+RUN	mkdir -p /run/mysqld
+RUN	chmod 777 ./start.sh 
 
-RUN		chmod 777 ./start.sh 
+EXPOSE 3306
 
-EXPOSE	3306
-
-CMD		["/bin/ash", "start.sh"]
+CMD ["/bin/ash", "start.sh"]

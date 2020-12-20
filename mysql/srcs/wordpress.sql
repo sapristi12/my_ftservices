@@ -2,7 +2,7 @@
 -- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
--- Hôte : mysql-svc:3306
+-- Hôte : service-mysql:3306
 -- Généré le : mer. 16 déc. 2020 à 18:33
 -- Version du serveur :  10.4.15-MariaDB
 -- Version de PHP : 7.3.25

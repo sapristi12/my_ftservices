@@ -1,18 +1,19 @@
-FROM alpine:latest
+FROM	alpine
 
-COPY nginx.conf index.html setup.sh ./
+RUN		apk update \
+			&& apk add --no-cache nginx openssl bash
 
-RUN apk update && \
-	apk add --no-cache nginx openssh openssl
+COPY	. .
+RUN		cat nginx.conf > /etc/nginx/nginx.conf
+RUN		cat nginx.crt  > /etc/nginx/nginx.crt
+RUN		cat nginx.key  > /etc/nginx/nginx.key
 
-RUN mkdir -p /run/nginx www && \
-	mv nginx.conf /etc/nginx/ && \
-	mv index.html /www/
+RUN		chmod 777 ./start.sh
+RUN		mkdir -p /run/nginx
+RUN		echo "NGINX INDEX PAGE" > /var/www/index.html
 
-RUN openssl req -new -newkey rsa:2048 -nodes -days 365 -x509 \
-	-subj "/C=FR/ST=IDF/L=Paris/O=42/OU=Federation/CN=localhost" \
-	-keyout /etc/ssl/private/services.key -out /etc/ssl/certs/services.crt
+RUN		chmod -R 777 /var/log/nginx
 
-EXPOSE 22 80 443
+EXPOSE	80 443
 
-CMD ./setup.sh
+CMD		["./start.sh"]
