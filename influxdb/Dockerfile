@@ -1,7 +1,11 @@
 FROM alpine
 
-RUN apk update
-RUN	apk add influxdb
+RUN apk update && apk add \
+	openrc \
+	influxdb
+
+COPY srcs/start.sh /root/
 
 EXPOSE 8086
-ENTRYPOINT ["influxd"]
+
+CMD ["/bin/sh", "/root/start.sh"]

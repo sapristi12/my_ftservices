@@ -7,6 +7,9 @@ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manife
 kubectl apply -f metalLB.yaml
 kubectl create secret generic -n metallb-system memberlist  --from-literal=secretkey="$(openssl rand -base64 128)"
 
+kubectl apply -f ./config/cluster-configmap.yaml
+kubectl apply -f ./config/cluster-secret.yaml
+
 eval $(minikube docker-env)
 IP=$(kubectl get node -o=custom-columns='DATA:status.addresses[0].address' | sed -n 2p)
 printf "Minikube IP: ${IP}"
@@ -20,8 +23,7 @@ docker build -t wordpress --build-arg IP=${IP} ./wordpress
 docker build -t phpmyadmin --build-arg IP=${IP} ./phpmyadmin
 docker build -t influxdb --build-arg IP=${IP} ./influxdb
 docker build -t telegraf --build-arg IP=${IP} ./telegraf
-#docker build -t grafana --build-arg IP=${IP} ./grafana
-#docker build -t service_influxdb --build-arg IP=${IP} ./influxdb
+docker build -t grafana --build-arg IP=${IP} ./grafana
 
 #YAML
 echo "Pods and services :"
@@ -32,7 +34,6 @@ kubectl create -f ./ftps.yaml
 kubectl create -f ./phpmyadmin.yaml
 kubectl create -f ./influxdb.yaml
 kubectl create -f ./telegraf.yaml
-#kubectl create -f ./grafana.yaml
-#kubectl create -f ./influxdb.yaml
+kubectl create -f ./grafana.yaml
 
 minikube dashboard

@@ -1,12 +1,13 @@
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
-  name: telegraf
+  name: telegraf-deployment
+  labels:
+    app: telegraf
 spec:
   selector:
     matchLabels:
       app: telegraf
-  serviceName: telegraf
   template:
     metadata:
       labels:
@@ -16,51 +17,72 @@ spec:
       - name: telegraf
         image: telegraf
         imagePullPolicy: Never
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - ps aux | grep -v grep | grep telegraf
+          initialDelaySeconds: 5
+          periodSeconds: 3
         ports:
         - containerPort: 8125
-        #livenessProbe:
-        #  exec:
-        #    command:
-        #    - pgrep
-        #    - telegraf
-        #  initialDelaySeconds: 5
-        #  periodSeconds: 5
+        env:
+        - name: IFDB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: cluster-secret
+              key: ifdb-name
+        - name: IFDB_USER
+          valueFrom:
+            secretKeyRef:
+              name: cluster-secret
+              key: ifdb-user
+        - name: IFDB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: cluster-secret
+              key: ifdb-password
         volumeMounts:
-        - name: telegraf-vol
+        - name: telegraf-endpoint
           mountPath: "/var/run/docker.sock"
       volumes:
-      - name: telegraf-vol
+      - name: telegraf-endpoint
         hostPath:
           path: /var/run/docker.sock
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: telegraf-svc
+  name: telegraf-service
 spec:
-  selector:
-    app: telegraf
   type: ClusterIP
   ports:
-  - port: 8125
+  - name: telegraf
+    port: 8125
     targetPort: 8125
+    protocol: TCP
+  selector:
+    app: telegraf
+
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: account-telegraf
+  name: telegraf-account
   labels:
     app: telegraf
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: role-telegraf
+  name: telegraf-role
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: cluster-admin
 subjects:
 - kind: ServiceAccount
-  name: account-telegraf
+  name: telegraf-account
   namespace: default
+

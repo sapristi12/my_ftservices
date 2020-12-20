@@ -1,11 +1,21 @@
 FROM alpine
 
-RUN apk update
-RUN apk add grafana --repository=http://dl-3.alpinelinux.org/alpine/edge/testing/
+RUN apk update && apk add \
+	wget
 
-COPY influxdb-datasource.yaml /usr/share/grafana/conf/provisioning/datasources/influxdb.yaml
-COPY dashboards.yaml /usr/share/grafana/conf/provisioning/dashboards/dashboards.yaml
-COPY ./json/* /var/lib/grafana/dashboards/
+RUN wget https://dl.grafana.com/oss/release/grafana-7.3.3.linux-amd64.tar.gz \
+	&& tar -zxf grafana-7.3.3.linux-amd64.tar.gz \
+	&& mv grafana-7.3.3 grafana \
+	&& rm grafana-7.3.3.linux-amd64.tar.gz
+	
+RUN mkdir /lib64 && ln -s /lib/libc.musl-x86_64.so.1 /lib64/ld-linux-x86-64.so.2
 
-EXPOSE	3000
-ENTRYPOINT [ "grafana-server", "--homepath=/usr/share/grafana" ]
+COPY srcs/datasource.yaml grafana/conf/provisioning/datasources/
+COPY srcs/dashboard.yaml grafana/conf/provisioning/dashboards/
+COPY srcs/dashboard.json var/lib/grafana/dashboards/
+
+COPY srcs/start.sh /root/
+
+EXPOSE 3000
+
+CMD ["/bin/sh", "/root/start.sh"]
