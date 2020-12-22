@@ -3,9 +3,9 @@ datasources:
   - name: InfluxDB
     type: influxdb
     access: proxy
-    url: http://influxdb-service.default.svc.cluster.local:8086
-    database: influxdb
+    url: http://influxdb-service:8086
+    database: influxdatabase
     basicAuth: true
-    secureJsonData.basicAuthUser: root
-    secureJsonData.basicAuthPassword: root
+    secureJsonData.basicAuthUser: admin
+    secureJsonData.basicAuthPassword: admin
     editable: true

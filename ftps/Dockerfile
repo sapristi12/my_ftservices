@@ -1,15 +1,19 @@
-FROM	alpine
+ARG VERSION=latest
 
-RUN		apk update \
-		&& apk add --no-cache vsftpd openssl bash
+FROM alpine:$VERSION
 
-COPY	. .
+RUN	apk update
+RUN apk add --no-cache vsftpd openssl bash
 
-COPY	vsftpd.conf /etc/vsftpd.conf
-RUN		mkdir /etc/certs
-COPY	vsftpd.pem /vsftpd.pem
+COPY srcs/start.sh ./
+COPY srcs/vsftpd.conf ./
+COPY srcs/vsftpd.pem ./
 
-RUN		chmod 777 start.sh 
+RUN	mkdir /etc/certs
+RUN mv vsftpd.conf /etc/vsftpd.conf
+RUN mv vsftpd.pem /vsftpd.pem
+
+RUN	chmod 777 start.sh 
 EXPOSE	20 21 20010 20011
 
-CMD		["./start.sh"]
+CMD	["./start.sh"]

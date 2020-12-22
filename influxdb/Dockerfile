@@ -1,8 +1,9 @@
-FROM alpine
+ARG VERSION=latest
 
-RUN apk update && apk add \
-	openrc \
-	influxdb
+FROM alpine:$VERSION
+
+RUN apk update
+RUN apk add openrc influxdb
 
 COPY srcs/start.sh /root/
 

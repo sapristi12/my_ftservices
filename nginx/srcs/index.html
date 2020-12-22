@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>@erlajoua - FT_SERVICES</title>
+</head>
+<body>
+    <div id="main">
+        <h1>FT_SERVICES</h1>
+        <span id="intra"> by @erlajoua</span>
+        <h3>___________________________________________</h3>
+        <h2>NGINX :</h2>
+        <p>
+		Voici la page d'accueil de nginx.
+        </p>
+        <p>
+            L'un des critères du sujet est de vérifier qu'il existe une redirection depuis cette page, vers phpmyadmin et wordpress.
+	    Soit en cliquant via l'un des boutons ci-dessous !
+	    Soit en rajoutant :
+        </p>
+        <div id="main_prompt">
+            <div class="div_prompt">
+                <span class="prompt">/wordpress</span>
+            </div>
+            <span class="txt">ou</span>
+            <div class="div_prompt">
+                <span class="prompt">/phpmyadmin</span>
+            </div>
+        </div>
+	<h3 style="margin-top:5%;">___________________________________________</h3>
+	<div style="display:flex;flex-direction:row;">
+       	  <form action="./wordpress" method="post" style="width:100%">
+              <input type="submit" value="wordpress" name="ON" class="button">
+          </form>
+          <form action="./phpmyadmin" method="post" style="width:100%">
+              <input type="submit" value="phpmyadmin" name="OFF" class="button">
+          </form>
+	</div>
+    </div>
+    <div id="pink">
+        <span class="error">403</span>
+        <span class="error2">Forbidden: nginx/1.14.2</span>
+        <div id="img_github">
+            <img id="img" src="logogit.png">
+            <a target="_blank" class="github" href="https://github.com/sapristi12">@Sapristi12</a>
+        </div>
+    </div>
+</body>
+</html>

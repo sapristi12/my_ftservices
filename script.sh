@@ -7,9 +7,6 @@ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manife
 kubectl apply -f metalLB.yaml
 kubectl create secret generic -n metallb-system memberlist  --from-literal=secretkey="$(openssl rand -base64 128)"
 
-kubectl apply -f ./config/cluster-configmap.yaml
-kubectl apply -f ./config/cluster-secret.yaml
-
 eval $(minikube docker-env)
 IP=$(kubectl get node -o=custom-columns='DATA:status.addresses[0].address' | sed -n 2p)
 printf "Minikube IP: ${IP}"

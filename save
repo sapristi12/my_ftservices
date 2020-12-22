@@ -1,0 +1,49 @@
+echo -e "\e[34mSuppresion de l'ancien cluster..."
+minikube delete
+echo -e "\e[32mOK !"
+
+echo -e "\e[34mCréation du nouveau cluster..."
+minikube start
+echo -e "\e[32mOK !"
+
+echo -e "\e[34mInstallation de metalLB..."
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
+kubectl apply -f metalLB.yaml
+kubectl create secret generic -n metallb-system memberlist  --from-literal=secretkey="$(openssl rand -base64 128)"
+echo -e "\e[32mOK !"
+
+eval $(minikube docker-env)
+
+echo -e "\e[34mCréations des dockers..."
+
+echo -e "\e[93mBuilding image nginx"
+docker build -t nginx ./nginx
+echo -e "\e[93mBuilding image ftps"
+docker build -t ftps ./ftps
+echo -e "\e[93mBuilding image mysql"
+docker build -t mysql ./mysql
+echo -e "\e[93mBuilding image wordpress"
+docker build -t wordpress ./wordpress
+echo -e "\e[93mBuilding image phpmyadmin"
+docker build -t phpmyadmin ./phpmyadmin
+echo -e "\e[93mBuilding image influxdb"
+docker build -t influxdb ./influxdb
+echo -e "\e[93mBuilding image telegraf"
+docker build -t telegraf ./telegraf
+echo -e "\e[93mBuilding image grafana"
+docker build -t grafana ./grafana
+echo -e "\e[32mOK !"
+
+echo -e "\e[34mApplication des fichiers .yaml..."
+kubectl create -f ./nginx.yaml
+kubectl create -f ./mysql.yaml
+kubectl create -f ./wordpress.yaml
+kubectl create -f ./ftps.yaml
+kubectl create -f ./phpmyadmin.yaml
+kubectl create -f ./influxdb.yaml
+kubectl create -f ./telegraf.yaml
+kubectl create -f ./grafana.yaml
+echo -e "\e[32mOK !"
+
+minikube dashboard

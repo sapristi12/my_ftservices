@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Carter+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital@1&display=swap');
+
+:root {
+    --main_color: #558DED;
+  }
+
+body{
+    margin:0;
+    padding:0;
+    background: linear-gradient(100deg, rgb(255, 255, 255) 62%, var(--main_color) 50%);
+    /*background: linear-gradient(100deg, rgb(255, 255, 255) 62%, #CC545D 50%);*/
+    min-height: 100vh;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    display:flex;
+    flex-direction: row;
+    text-align:center;
+    color:black;
+}
+
+h1{
+    font-size: 3.7vw;
+    color:var(--main_color);
+    font-family: 'Carter One', cursive;
+    margin-bottom:0;
+	text-shadow: 6px 6px 1px #b9b7b7;
+}
+
+h2{
+    font-size:2em;
+}
+
+#intra{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 1.8vw;
+    color:var(--main_color);
+}
+
+h3{
+    font-size:2em;
+    font-family: 'Times New Roman', Times, serif;
+    margin:0;
+    padding:0;
+}
+
+#img_github{
+    display:flex;
+    flex-direction: row;
+}
+
+#img{
+    width:45px;
+    height: 45px;
+    margin-top:20%;
+}
+
+#pink{
+    height:6em;
+    margin-left:11%;
+    margin-top:12%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.error{
+    color:white;
+    font-size:9em;
+    font-family: 'Carter One', cursive;
+    text-shadow: 6px 6px 1px #5a5a5a;
+}
+
+.error2{
+    color:white;
+    width:100%;
+    font-size:2em;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.github{
+    color:white;
+    font-family: 'Open Sans', sans-serif;
+    font-size:1.5em;
+    margin-top:40px;
+    margin-left:5%;
+    text-decoration: none
+}
+
+.button{
+    border:none;
+    padding:6px 0 6px 0;
+    border-radius:8px;
+    background:var(--main_color);
+    font:bold 13px Arial;
+    color:#fff;
+    width:30%;
+    cursor:pointer;
+    margin:1%;
+    margin-top:6%;
+}
+
+.button:hover{
+    background:#184fad;;
+}
+
+p{
+    color:black;
+    font-size:1.3em;
+    margin-bottom:1%;
+    margin-right:7%;
+    margin-left:7%;
+}
+
+#main{
+    display:flex;
+    flex-direction: column;
+    width:62%;
+}
+
+#main_prompt{
+    display:flex;
+    flex-direction: row;
+    margin-left:35%;
+    margin-top:0px;
+}
+
+.txt{
+    margin-left:2%;
+}
+
+.div_prompt{
+    float:center;
+    width:150px;;
+    background-color:#2F3136;
+    margin-left:2%;
+    border-radius: 3px;
+}
+
+.prompt{
+    font-family: Consolas;
+    color:white;
+    width:100%;
+}
