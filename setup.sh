@@ -47,5 +47,19 @@ kubectl create -f ./ftps.yaml > /dev/null
 #kubectl create -f ./telegraf.yaml > /dev/null
 #kubectl create -f ./grafana.yaml > /dev/null
 echo "\e[32mOK !"
-
+echo "=== PHPMYADMIN ==="
+echo "Login : erlajoua | password : 1212"
+echo "== FTPS ==="
+echo "Login : admin | password : admin"
+echo "show content : curl --ftp-ssl --insecure --user admin:admin ftp://172.17.0.2"
+echo "upload file : curl --ftp-ssl --insecure --user admin:admin -T namefile ftp://172.17.0.2"
+echo "download file : curl --ftp-ssl --insecure --user admin:admin ftp://172.17.0.2 -o ./namefile"
+echo "=== GRAFANA ==="
+echo "Login : admin | password : admin"
+echo "=== INFLUXDB ==="
+echo "Login : admin | password : admin"
+echo "databasename : influxdatabase"
+echo "=== MYSQL ==="
+echo "Login : erlajoua | password : 1212"
+echo "databasename : wordpress"
 minikube dashboard
