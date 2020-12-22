@@ -1,19 +1,17 @@
-ARG VERSION=latest
+FROM alpine
 
-FROM alpine:$VERSION
+RUN apk update && apk add \
+	vsftpd \
+	openssl
 
-RUN	apk update
-RUN apk add --no-cache vsftpd openssl bash
+RUN openssl req -x509 -nodes -days 365 -subj "/C=FR/ST=PARIS/L=PARIS/O=L/CN=localhost" \
+    -newkey rsa:2048 -keyout /etc/ssl/private/vsftpd.pem -out /etc/ssl/private/vsftpd.pem
+	
+COPY srcs/vsftpd.conf /etc/vsftpd/vsftpd.conf
+COPY srcs/start.sh /root
+RUN mkdir -p /home/ftp/admin/
+RUN touch /home/ftp/admin/monfichier
 
-COPY srcs/start.sh ./
-COPY srcs/vsftpd.conf ./
-COPY srcs/vsftpd.pem ./
+EXPOSE 20 21 21000-21005
 
-RUN	mkdir /etc/certs
-RUN mv vsftpd.conf /etc/vsftpd.conf
-RUN mv vsftpd.pem /vsftpd.pem
-
-RUN	chmod 777 start.sh 
-EXPOSE	20 21 20010 20011
-
-CMD	["./start.sh"]
+CMD ["/bin/sh", "/root/start.sh"]

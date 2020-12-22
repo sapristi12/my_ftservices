@@ -20,32 +20,32 @@ eval $(minikube docker-env)
 echo "\e[34mCréations des dockers..."
 
 echo "\e[93mBuilding image nginx"
-docker build -t nginx ./nginx > /dev/null
+#docker build -t nginx ./nginx > /dev/null
 echo "\e[93mBuilding image ftps"
 docker build -t ftps ./ftps > /dev/null
 echo "\e[93mBuilding image mysql"
-docker build -t mysql ./mysql > /dev/null
+#docker build -t mysql ./mysql > /dev/null
 echo "\e[93mBuilding image wordpress"
-docker build -t wordpress ./wordpress > /dev/null
+#docker build -t wordpress ./wordpress > /dev/null
 echo "\e[93mBuilding image phpmyadmin"
-docker build -t phpmyadmin ./phpmyadmin > /dev/null
+#docker build -t phpmyadmin ./phpmyadmin > /dev/null
 echo "\e[93mBuilding image influxdb"
-docker build -t influxdb ./influxdb > /dev/null
+#docker build -t influxdb ./influxdb > /dev/null
 echo "\e[93mBuilding image telegraf"
-docker build -t telegraf ./telegraf > /dev/null
+#docker build -t telegraf ./telegraf > /dev/null
 echo "\e[93mBuilding image grafana"
-docker build -t grafana ./grafana > /dev/null
+#docker build -t grafana ./grafana > /dev/null
 echo "\e[32mOK !"
 
 echo "\e[34mApplication des fichiers .yaml..."
-kubectl create -f ./nginx.yaml > /dev/null
-kubectl create -f ./mysql.yaml > /dev/null
-kubectl create -f ./wordpress.yaml > /dev/null
+#kubectl create -f ./nginx.yaml > /dev/null
+#kubectl create -f ./mysql.yaml > /dev/null
+#kubectl create -f ./wordpress.yaml > /dev/null
 kubectl create -f ./ftps.yaml > /dev/null
-kubectl create -f ./phpmyadmin.yaml > /dev/null
-kubectl create -f ./influxdb.yaml > /dev/null
-kubectl create -f ./telegraf.yaml > /dev/null
-kubectl create -f ./grafana.yaml > /dev/null
+#kubectl create -f ./phpmyadmin.yaml > /dev/null
+#kubectl create -f ./influxdb.yaml > /dev/null
+#kubectl create -f ./telegraf.yaml > /dev/null
+#kubectl create -f ./grafana.yaml > /dev/null
 echo "\e[32mOK !"
 
 minikube dashboard

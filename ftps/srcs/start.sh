@@ -1,13 +1,10 @@
-#! /bin/bash
+#!/bin/bash
 
-adduser -D admin
+mkdir -p /home/ftp/admin
+
+adduser -h /home/ftp/admin -D admin
 echo "admin:admin" | chpasswd
 
-echo "admin" > /etc/vsftpduserlist.conf
+chown admin:admin /home/ftp/admin
 
-mkdir /var/run/vsftpd
-mkdir /var/run/vsftpd/empty
-
-/usr/sbin/vsftpd /etc/vsftpd.conf
-
-tail -F /dev/null
+/usr/sbin/vsftpd -opasv_address=172.17.0.2 /etc/vsftpd/vsftpd.conf
