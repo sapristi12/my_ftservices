@@ -1,4 +1,6 @@
-FROM alpine
+ARG VERSION=latest
+
+FROM alpine:$version
 
 RUN apk update && apk add \
 	vsftpd \
