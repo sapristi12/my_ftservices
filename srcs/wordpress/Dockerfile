@@ -22,5 +22,4 @@ RUN mv wp-config.php /wordpress/wp-config.php
 RUN mv /wordpress/* /var/www/.
 
 EXPOSE 5050
-
 CMD ["./start.sh"]

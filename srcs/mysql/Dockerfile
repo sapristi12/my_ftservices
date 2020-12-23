@@ -16,5 +16,4 @@ RUN	mkdir -p /run/mysqld
 RUN	chmod 777 ./start.sh 
 
 EXPOSE 3306
-
 CMD ["/bin/ash", "start.sh"]

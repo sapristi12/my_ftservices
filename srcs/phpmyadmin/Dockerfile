@@ -24,5 +24,4 @@ RUN	mkdir -p /var/www && mkdir -p /run/nginx && mkdir -p /run/php && mkdir -p /r
 RUN	mv /usr/share/webapps/phpmyadmin/* /var/www/.
 
 EXPOSE 5000
-
 CMD	["./start.sh"]

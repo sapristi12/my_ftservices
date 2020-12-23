@@ -17,6 +17,4 @@ COPY srcs/start.sh /root/start.sh
 COPY srcs/telegraf.conf /etc/telegraf/telegraf.conf
 
 EXPOSE 8125
-
 CMD ["/bin/sh", "root/start.sh"]
-

@@ -25,6 +25,5 @@ RUN mv index.html /var/www/
 RUN mv style.css /var/www/
 RUN mv logogit.png /var/www/
 
-EXPOSE	80 443
-
+EXPOSE 80 443
 CMD ["./start.sh"]

@@ -18,5 +18,4 @@ COPY srcs/dashboard.json var/lib/grafana/dashboards/
 COPY srcs/start.sh /root/
 
 EXPOSE 3000
-
 CMD ["/bin/sh", "/root/start.sh"]
